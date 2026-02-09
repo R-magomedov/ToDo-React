@@ -2,15 +2,20 @@ import React from 'react'
 import Field from './Field'
 import Button from './Button'
 
-const AddTaskForm = () => {
+const AddTaskForm = ({addTask}) => {
+
+  const onSumbit = (event) => {
+    event.preventDefault()
+    addTask()
+  }
   return (
-    <form className="todo__form">
+    <form className="todo__form" onSubmit={onSumbit}>
         <Field 
           className="todo__field"
           id="new-task"
-          label="New task title"
+          label="Новая задача"
         />
-        <Button type="submit">Add</Button>
+        <Button type="submit">Добавить</Button>
       </form>
   )
 }

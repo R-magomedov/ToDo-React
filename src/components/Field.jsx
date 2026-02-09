@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Field = ({className='', id, label, type = 'text'}) => {
+const Field = ({className='', id, label, type = 'text', onInput}) => {
   return (
     <div className={`field ${className}`}>
           <label
@@ -15,6 +15,7 @@ const Field = ({className='', id, label, type = 'text'}) => {
             placeholder=" "
             autoComplete="off"
             type={type}
+            onInput={onInput}
           />
         </div>
   )

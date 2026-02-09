@@ -1,7 +1,7 @@
 import React from 'react'
 import TodoItem from './TodoItem'
 
-const TodoList = ({tasks = []}) => {
+const TodoList = ({tasks = [], onDeleteTaskButtonClick, onTaskCompleteChange}) => {
     const hasTasks = true
 
     if(!hasTasks) {
@@ -17,6 +17,8 @@ const TodoList = ({tasks = []}) => {
             id={task.id}
             title={task.title}
             isDone={task.isDone}
+            onDeleteTaskButtonClick={onDeleteTaskButtonClick}
+            onTaskCompleteChange={onTaskCompleteChange}
           />
         ))}
       </ul>

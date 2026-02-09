@@ -1,14 +1,18 @@
 import React from 'react'
 import Field from './Field'
 
-const SearchTaskForm = () => {
+const SearchTaskForm = ({onSearchinput}) => {
   return (
-    <form className="todo__form">
+    <form
+      className="todo__form"
+      onSubmit={(event) => event.preventDefault()}
+    >
        <Field 
           className="todo__field"
           id="search-task"
-          label="Search-task"
+          label="Поиск задачи"
           type="search"
+          onInput={({target}) => onSearchinput(target.value)}
         />
       </form>
   )
