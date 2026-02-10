@@ -1,7 +1,7 @@
 import React from 'react'
 import Field from './Field'
 
-const SearchTaskForm = ({onSearchinput}) => {
+const SearchTaskForm = ({searchQuery, setSearchQuery}) => {
   return (
     <form
       className="todo__form"
@@ -12,7 +12,8 @@ const SearchTaskForm = ({onSearchinput}) => {
           id="search-task"
           label="Поиск задачи"
           type="search"
-          onInput={({target}) => onSearchinput(target.value)}
+          value={searchQuery}
+          onInput={({target}) => setSearchQuery(target.value)}
         />
       </form>
   )

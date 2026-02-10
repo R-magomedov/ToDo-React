@@ -1,16 +1,21 @@
 import React from 'react'
 import TodoItem from './TodoItem'
 
-const TodoList = ({tasks = [], onDeleteTaskButtonClick, onTaskCompleteChange}) => {
-    const hasTasks = true
+const TodoList = ({tasks = [], onDeleteTaskButtonClick, onTaskCompleteChange, filteredTasks}) => {
+    const hasTasks = tasks.length > 0
+    const isEmptyFilteredTasks = filteredTasks?.length === 0
 
     if(!hasTasks) {
-        return <div className="todo__empty-message"></div>
+        return <div className="todo__empty-message">Задач нет</div>
+    }
+
+    if(hasTasks && isEmptyFilteredTasks) {
+        return <div className="todo__empty-message">Ничего не найдено</div>
     }
 
   return (
     <ul className="todo__list">
-        {tasks.map((task) => (
+        {(filteredTasks ?? tasks).map((task) => (
           <TodoItem
             className="todo__item"
             key={task.id}
