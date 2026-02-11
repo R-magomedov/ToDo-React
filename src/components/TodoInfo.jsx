@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { memo } from 'react'
 
 const TodoInfo = ({total, done, onDeleteAllButtonClick}) => {
+
   const haskTasks = total > 0
   return (
     <div className="todo__info">
@@ -12,4 +13,4 @@ const TodoInfo = ({total, done, onDeleteAllButtonClick}) => {
   )
 }
 
-export default TodoInfo
+export default memo(TodoInfo) 
