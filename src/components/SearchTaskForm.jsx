@@ -1,7 +1,10 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Field from './Field'
+import { TaskContext } from '../contex/TaskContex'
 
-const SearchTaskForm = ({searchQuery, setSearchQuery}) => {
+const SearchTaskForm = () => {
+
+  const { searchQuery, setSearchQuery } = useContext(TaskContext)
   return (
     <form
       className="todo__form"

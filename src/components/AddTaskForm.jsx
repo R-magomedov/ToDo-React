@@ -1,8 +1,11 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Field from './Field'
 import Button from './Button'
+import { TaskContext } from '../contex/TaskContex'
 
-const AddTaskForm = ({addTask, newTaskTitle, setNewTaskTitle, newTaskInputRef}) => {
+const AddTaskForm = () => {
+
+  const { addTask, newTaskTitle, setNewTaskTitle, newTaskInputRef } = useContext(TaskContext)
 
   const onSumbit = (event) => {
     event.preventDefault()
