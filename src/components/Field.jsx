@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Field = ({className='', id, label, type = 'text', onInput, value}) => {
+const Field = ({className='', id, label, type = 'text', onInput, value, ref}) => {
   return (
     <div className={`field ${className}`}>
           <label
@@ -17,6 +17,7 @@ const Field = ({className='', id, label, type = 'text', onInput, value}) => {
             type={type}
             onInput={onInput}
             value={value}
+            ref={ref}
           />
         </div>
   )

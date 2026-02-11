@@ -1,7 +1,7 @@
 import React from 'react'
 import TodoItem from './TodoItem'
 
-const TodoList = ({tasks = [], onDeleteTaskButtonClick, onTaskCompleteChange, filteredTasks}) => {
+const TodoList = ({tasks = [], onDeleteTaskButtonClick, onTaskCompleteChange, filteredTasks, firstInCompleteTaskRef, firstInCompleteTaskId}) => {
     const hasTasks = tasks.length > 0
     const isEmptyFilteredTasks = filteredTasks?.length === 0
 
@@ -20,6 +20,7 @@ const TodoList = ({tasks = [], onDeleteTaskButtonClick, onTaskCompleteChange, fi
             className="todo__item"
             key={task.id}
             id={task.id}
+            ref={task.id === firstInCompleteTaskId ? firstInCompleteTaskRef : null}
             title={task.title}
             isDone={task.isDone}
             onDeleteTaskButtonClick={onDeleteTaskButtonClick}

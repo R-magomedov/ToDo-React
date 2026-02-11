@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import AddTaskForm from './AddTaskForm'
 import SearchTaskForm from './SearchTaskForm'
 import TodoInfo from './TodoInfo'
 import TodoList from './TodoList'
+import Button from './Button'
 
 const Todo = () => {
 
@@ -22,6 +23,10 @@ const Todo = () => {
   const [ newTaskTitle, setNewTaskTitle ] = useState('')
 
   const [ searchQuery, setSearchQuery ] = useState('')
+
+  const newTaskInputRef = useRef(null)
+  const firstInCompleteTaskRef = useRef(null)
+  const firstInCompleteTaskId = tasks.find(({isDone}) => !isDone)?.id
 
   const deleteAllTasks = () => {
     const isConfirmed = confirm('Вы уверены?')
@@ -57,12 +62,17 @@ const Todo = () => {
       setTasks([...tasks, newTask])
       setNewTaskTitle('')
       setSearchQuery('')
+      newTaskInputRef.current.focus()
     }
   }
 
   useEffect(() => {
     localStorage.setItem('tasks', JSON.stringify(tasks))
   }, [tasks])
+
+  useEffect(() => {
+    newTaskInputRef.current.focus()
+  }, [])
 
   const clearSearchQuery = searchQuery.trim().toLowerCase()
   const filteredTasks = clearSearchQuery.length > 0
@@ -76,6 +86,7 @@ const Todo = () => {
       addTask={addTask}
       newTaskTitle={newTaskTitle}
       setNewTaskTitle={setNewTaskTitle}
+      newTaskInputRef={newTaskInputRef}
     />
     <SearchTaskForm 
       searchQuery={searchQuery}
@@ -86,9 +97,15 @@ const Todo = () => {
       done = {tasks.filter((task) => task.isDone).length}
       onDeleteAllButtonClick = {deleteAllTasks}
     />
+    <Button
+      onClick={() => firstInCompleteTaskRef.current?.scrollIntoView({behavior: 'smooth'})}>
+      Показать незавершенные задачи
+    </Button>
     <TodoList 
       filteredTasks={filteredTasks}
       tasks={tasks}
+      firstInCompleteTaskRef={firstInCompleteTaskRef}
+      firstInCompleteTaskId={firstInCompleteTaskId}
       onDeleteTaskButtonClick={deleteTask}
       onTaskCompleteChange={toggleTaskComplete}
     />

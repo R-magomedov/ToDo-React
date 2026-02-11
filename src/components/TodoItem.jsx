@@ -1,11 +1,12 @@
 import React from 'react'
 
-const TodoItem = ({className='', id, title, isDone, onDeleteTaskButtonClick, onTaskCompleteChange}) => {
+const TodoItem = ({className='', id, title, isDone, onDeleteTaskButtonClick, onTaskCompleteChange, ref}) => {
   return (
-    <li className={`todo-item ${className}`}>
+    <li className={`todo-item ${className}` }>
     <input
       className="todo-item__checkbox"
       id={id}
+      ref={ref}
       type="checkbox"
       checked={isDone}
       onChange={({target}) => (
