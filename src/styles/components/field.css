@@ -46,4 +46,16 @@
       background-repeat: no-repeat;
     }
   }
+
+  &.is-invalid {
+    border-color: red;
+  }
+}
+
+.field__error {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  color: red;
+  font-size: 12px;
 }

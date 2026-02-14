@@ -12,7 +12,7 @@ const useTask = () => {
     {id: 'task-1', title: 'Купить хлеб', isDone: false},
     {id: 'task-2', title: 'Купить сыр', isDone: true},
   ])
-
+ 
   const [ newTaskTitle, setNewTaskTitle ] = useState('')
 
   const [ searchQuery, setSearchQuery ] = useState('')
@@ -42,11 +42,10 @@ const useTask = () => {
     )
   }, [tasks])
 
-  const addTask = useCallback(() => {
-    if(newTaskTitle.trim().length > 0) {
+  const addTask = useCallback((title) => {
       const newTask = {
         id: crypto?.randomUUID() ?? Date.now().toString(),
-        title: newTaskTitle,
+        title,
         isDone: false,
       }
 
@@ -54,8 +53,7 @@ const useTask = () => {
       setNewTaskTitle('')
       setSearchQuery('')
       newTaskInputRef.current.focus()
-    }
-  }, [newTaskTitle])
+  }, [])
 
   useEffect(() => {
     saveTasks(tasks)
