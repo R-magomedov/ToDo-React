@@ -1,5 +1,6 @@
 import React, { memo, useContext } from 'react'
 import { TaskContext } from '../contex/TaskContex'
+import RouterLink from './RouterLink'
 
 const TodoItem = ({
     className='', 
@@ -23,11 +24,14 @@ const TodoItem = ({
       )}
     />
     <label
-      className="todo-item__label"
+      className="todo-item__label visually-hidden"
       htmlFor={id}
     >
       {title}
     </label>
+      <RouterLink to={`/tasks/${id}`} aria-label="task details">
+        {title}
+      </RouterLink>
     <button
       className="todo-item__delete-button"
       aria-label="Delete"
