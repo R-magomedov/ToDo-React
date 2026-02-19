@@ -1,9 +1,9 @@
 import React, { useContext, useState } from 'react'
-import Field from './Field'
-import Button from './Button'
-import { TaskContext } from '../contex/TaskContex'
+import Field from '../Field/Field'
+import Button from '../Button/Button'
+import { TaskContext } from '../../contex/TaskContex'
 
-const AddTaskForm = () => {
+const AddTaskForm = ({styles}) => {
 
   const { addTask, newTaskTitle, setNewTaskTitle, newTaskInputRef } = useContext(TaskContext)
 
@@ -29,9 +29,9 @@ const onInput = (event) => {
 }
 
   return (
-    <form className="todo__form" onSubmit={onSumbit}>
+    <form className={styles.form} onSubmit={onSumbit}>
         <Field 
-          className="todo__field"
+          className={styles.field}
           id="new-task"
           label="Новая задача"
           value={newTaskTitle}

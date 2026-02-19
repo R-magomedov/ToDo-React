@@ -1,16 +1,17 @@
 import React from 'react'
+import styles from './Field.module.scss'
 
 const Field = ({className='', id, label, type = 'text', onInput, value, ref, error}) => {
   return (
-    <div className={`field ${className}`}>
+    <div className={`${styles.field} ${className}`}>
           <label
-            className="field__label"
+            className={styles.label}
             htmlFor={id}
           >
             {label}
           </label>
           <input
-            className={`field__input ${error ? 'is-invalid' : ''}`}
+            className={`${styles.input} ${error ? styles.isInvalid : ''}`}
             id={id}
             placeholder=" "
             autoComplete="off"
@@ -20,7 +21,7 @@ const Field = ({className='', id, label, type = 'text', onInput, value, ref, err
             ref={ref}
           />
           {error && (
-            <span className="field__error">{error}</span>
+            <span className={styles.error}>{error}</span>
           )}
         </div>
   )
