@@ -8,6 +8,10 @@ const useTask = () => {
 
     const [ searchQuery, setSearchQuery ] = useState('')
 
+    const [ disappearingTaskId, setDisappearingTaskId ] = useState(null)
+    
+    const [ appearingTaskId, setappearingTaskId ] = useState(null)
+
     const newTaskInputRef = useRef(null)
   
     const deleteAllTasks = useCallback(() => {
@@ -22,9 +26,12 @@ const useTask = () => {
     const deleteTask = useCallback((taskId) => {
         tasksAPI.delete(taskId)
             .then(() => {
-                setTasks(tasks.filter((task) => task.id !== taskId))
+                setDisappearingTaskId(taskId)
+                setTimeout(() => {
+                    setTasks(tasks.filter((task) => task.id !== taskId))
+                    setDisappearingTaskId(null) 
+                }, 400)
             })
-
     }, [tasks])
 
     const toggleTaskComplete = useCallback((taskId, isDone) => {
@@ -42,18 +49,22 @@ const useTask = () => {
     }, [tasks])
 
     const addTask = useCallback((title) => {
+
         const newTask = {
             title,
             isDone: false,
         }
-
-      tasksAPI.add(newTask)
-      .then((addedTask) => {
-          setTasks((prevTasks) => [...prevTasks, addedTask])
-          setNewTaskTitle('')
-          setSearchQuery('')
-          newTaskInputRef.current.focus()
-      })
+        tasksAPI.add(newTask)
+        .then((addedTask) => {
+            setTasks((prevTasks) => [...prevTasks, addedTask])
+            setNewTaskTitle('')
+            setSearchQuery('')
+            newTaskInputRef.current.focus()
+            setappearingTaskId(addedTask.id)
+            setTimeout(() => {
+                setappearingTaskId(null)
+            }, 400)
+        })
 
   }, [])
 
@@ -84,7 +95,9 @@ const useTask = () => {
     newTaskInputRef,
     searchQuery,
     setSearchQuery,
-    addTask
+    addTask,
+    disappearingTaskId,
+    appearingTaskId
   }
 }
 
