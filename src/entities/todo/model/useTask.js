@@ -1,8 +1,34 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react"
+import { useCallback, useEffect, useMemo, useRef, useState, useReducer } from "react"
 import tasksAPI from "@/shared/api/tasks"
 
+const tasksReducer = (state, action) => {
+    switch (action.type) {
+        case 'SET_ALL': {
+            return Array.isArray(action.tasks) ? action.tasks : state
+        }
+        case 'ADD': {
+            return [...state, action.task]
+        }
+        case 'TOGGLE_COMPLETE': {
+            const { id, isDone } = action
+            return state.map((task) => {
+                return task.id === id ? { ...task, isDone } : task
+            })
+        }
+        case 'DELETE': {
+            return state.filter((task) => task.id !== action.id)
+        }
+        case 'DELETE_ALL': {
+            return []
+        }
+        default: {
+            return state
+        }
+    }
+}
+
 const useTask = () => {
-    const [ tasks, setTasks ] = useState([])
+    const [ tasks, dispatch ] = useReducer(tasksReducer, [])
  
     const [ newTaskTitle, setNewTaskTitle ] = useState('')
 
@@ -18,7 +44,7 @@ const useTask = () => {
         const isConfirmed = confirm('Вы уверены?')
         if(isConfirmed) {
             tasksAPI.deleteAll(tasks).then(() => {
-                setTasks([])
+                dispatch({type: 'DELETE_ALL'})
             })
         }
     }, [tasks])
@@ -28,25 +54,18 @@ const useTask = () => {
             .then(() => {
                 setDisappearingTaskId(taskId)
                 setTimeout(() => {
-                    setTasks(tasks.filter((task) => task.id !== taskId))
+                    dispatch({type: 'DELETE', id: taskId})
                     setDisappearingTaskId(null) 
                 }, 400)
             })
-    }, [tasks])
+    }, [])
 
     const toggleTaskComplete = useCallback((taskId, isDone) => {
         tasksAPI.toggleComplete(taskId, isDone)
         .then(() => {
-            setTasks(
-                tasks.map((task) => {
-                    if(task.id === taskId) {
-                    return {...task, isDone}
-                    }
-                    return task
-                })
-            )
+            dispatch({type: 'TOGGLE_COMPLETE', id: taskId, isDone})
         })
-    }, [tasks])
+    }, [])
 
     const addTask = useCallback((title) => {
 
@@ -56,7 +75,7 @@ const useTask = () => {
         }
         tasksAPI.add(newTask)
         .then((addedTask) => {
-            setTasks((prevTasks) => [...prevTasks, addedTask])
+            dispatch({type: 'ADD', task: addedTask})
             setNewTaskTitle('')
             setSearchQuery('')
             newTaskInputRef.current.focus()
@@ -71,7 +90,9 @@ const useTask = () => {
     useEffect(() => {
         newTaskInputRef.current.focus()
 
-        tasksAPI.getAll().then(setTasks)
+        tasksAPI.getAll().then((serverTasks) => {
+            dispatch({type: 'SET_ALL', tasks: serverTasks})
+        })
     }, [])
 
     const filteredTasks = useMemo(() => {
