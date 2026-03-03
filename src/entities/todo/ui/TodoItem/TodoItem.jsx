@@ -37,7 +37,7 @@ const TodoItem = ({
     >
       {title}
     </label>
-      <RouterLink to={`/tasks/${id}`} aria-label="task details">
+      <RouterLink to={`tasks/${id}`} aria-label="task details">
         {title}
       </RouterLink>
     <button

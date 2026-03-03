@@ -1,4 +1,5 @@
 import React from 'react'
+import { BASE_URL } from '../../constants'
 
 const RouterLink = ({to, children, ...rest}) => {
 
@@ -9,7 +10,7 @@ const RouterLink = ({to, children, ...rest}) => {
     }
 
   return (
-    <a href={to} onClick={handleClick} {...rest}>
+    <a href={`${BASE_URL}${to}`} onClick={handleClick} {...rest}>
         {children}
     </a>
   )
